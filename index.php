@@ -93,6 +93,8 @@ function egj_room_status_settings_page() {
     $token1_post = get_option( $_SESSION['egj_room_status_token_option_name_1'] );
     $token2_post = get_option( $_SESSION['egj_room_status_token_option_name_2'] );
     $token3_post = get_option( $_SESSION['egj_room_status_token_option_name_3'] );
+    $rate_limit_in_post =  get_option( $_SESSION['egj_room_status_option_rate_limit_in'] );
+    $rate_limit_out_post =  get_option( $_SESSION['egj_room_status_option_rate_limit_out'] );
   }
 
   $status = json_encode(get_option( $_SESSION['egj_room_status_option_name_1'] ),  JSON_PRETTY_PRINT);

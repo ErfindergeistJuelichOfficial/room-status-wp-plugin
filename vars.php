@@ -13,4 +13,7 @@
   $_SESSION['egj_room_status_token_input_name_3'] = 'egj_door_status_token_3';
 
   $_SESSION['egj_room_status_option_name_1'] = 'egj_door_status_status_1'; 
+
+  $_SESSION['egj_room_status_option_rate_limit_in'] = 'egj_door_status_rate_limit_in';
+  $_SESSION['egj_room_status_option_rate_limit_out'] = 'egj_door_status_rate_limit_out';
 ?>

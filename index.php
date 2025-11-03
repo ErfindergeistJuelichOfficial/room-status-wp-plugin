@@ -95,6 +95,11 @@ function egj_room_status_settings_page() {
         <label for="status">Status</label><br>
         <textarea id="status" name="<?php echo $_SESSION['egj_room_status_option_name_1']; ?>" rows="10" cols="50" style="resize: both"><?php echo isset($status) ? esc_textarea($status) : ''; ?></textarea><br>
         
+        <label for="rate_limit_in">Rate Limit In</label><br>
+        <input id="rate_limit_in" type="number" name="<?php echo $_SESSION['egj_room_status_option_rate_limit_in']; ?>" value="<?php echo isset($rate_limit_in_post) ? esc_attr($rate_limit_in_post) : ''; ?>"><br>
+
+        <label for="rate_limit_out">Rate Limit Out</label><br>
+        <input id="rate_limit_out" type="number" name="<?php echo $_SESSION['egj_room_status_option_rate_limit_out']; ?>" value="<?php echo isset($rate_limit_out_post) ? esc_attr($rate_limit_out_post) : ''; ?>"><br>
         <br>
         
         <p class="submit">

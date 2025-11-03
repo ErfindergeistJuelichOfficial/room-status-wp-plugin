@@ -34,13 +34,31 @@ function egj_room_status_settings_page() {
   $token2_post = "";
   $token3_post = "";
   $status = "";
+  $rate_limit_in_post = "";
+  $rate_limit_out_post = "";
 
   // Check if the user has submitted the form
   if ( !empty($_POST) || wp_verify_nonce(egj_escape($_POST['egj_door_status_field']),'egj_door_status_action') ) {
     $token1_post = egj_escape($_POST[ $_SESSION['egj_room_status_token_input_name_1'] ]);
     $token2_post = egj_escape($_POST[ $_SESSION['egj_room_status_token_input_name_2'] ]);
     $token3_post = egj_escape($_POST[ $_SESSION['egj_room_status_token_input_name_3'] ]);
-   
+    $rate_limit_in_post = egj_escape($_POST[ $_SESSION['egj_room_status_option_rate_limit_in'] ]);
+    $rate_limit_out_post = egj_escape($_POST[ $_SESSION['egj_room_status_option_rate_limit_out'] ]);
+
+    if (isset($rate_limit_in_post)) {
+      update_option( $_SESSION['egj_room_status_option_rate_limit_in'], $rate_limit_in_post );
+      ?>
+        <div class="updated"><p><strong><?php _e('Rate Limit In saved.', 'menu-test' ); ?></strong></p></div>
+      <?php
+    }
+
+    if (  isset($rate_limit_out_post)) {
+      update_option( $_SESSION['egj_room_status_option_rate_limit_out'], $rate_limit_out_post );
+      ?>
+        <div class="updated"><p><strong><?php _e('Rate Limit Out saved.', 'menu-test' ); ?></strong></p></div>
+      <?php
+    }
+
     if (  isset($token1_post) &&  isset($token2_post) && isset($token3_post)) {
       update_option( $_SESSION['egj_room_status_token_option_name_1'], $token1_post );
       update_option( $_SESSION['egj_room_status_token_option_name_2'], $token2_post );

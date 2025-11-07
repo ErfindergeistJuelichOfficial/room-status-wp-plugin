@@ -103,7 +103,7 @@ function egj_door_status_get_api( $data ) {
   // rate limiting
   $ip = $_SERVER['REMOTE_ADDR'];
   $transient_key = 'erfindergeist_get_rate_limit_' . md5($ip);
-  $limit = get_option( $_SESSION['egj_room_status_option_rate_limit_out'] ) || 400;
+  $limit = 500; // get_option( $_SESSION['egj_room_status_option_rate_limit_out'] ) || 400;
   $window = 3600;
 
   $count = get_transient($transient_key);

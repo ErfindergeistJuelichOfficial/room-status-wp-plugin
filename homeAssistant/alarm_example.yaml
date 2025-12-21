@@ -1,0 +1,45 @@
+alias: egj_alarm_system
+description: ""
+triggers:
+  - trigger: time_pattern
+    minutes: /1
+conditions:
+  - condition: state
+    entity_id: sensor.pixel_6_charger_type
+    state: ac
+actions:
+  - action: rest_command.egj_workhop_room
+    response_variable: room_response
+    data: {}
+  - if:
+      - condition: template
+        value_template: "{{ room_response['status'] == 200 }}"
+    then:
+      - alias: Parse data
+        variables:
+          camPersonAlertState: "{{ room_response['content']['camPersonAlertState']['value'] }}"
+          doorState: "{{ room_response['content']['doorState']['value'] }}"
+          lockState: "{{ room_response['content']['lockState']['value'] }}"
+          smokeAlertState: "{{ room_response['content']['smokeAlertState']['value'] }}"
+          floodAlertState: "{{ room_response['content']['floodAlertState']['value'] }}"
+      - if:
+          - alias: ALARM
+            condition: or
+            conditions:
+              - condition: template
+                value_template: "{{ camPersonAlertState == 'on' }}"
+              - condition: template
+                value_template: "{{ doorState == 'on' }}"
+              - condition: template
+                value_template: "{{ lockState == 'unlocked' }}"
+              - condition: template
+                value_template: "{{ smokeAlertState == 'on' }}"
+              - condition: template
+                value_template: "{{ floodAlertState == 'on' }}"
+        then:
+          - action: switch.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.shelly1_941c25
+mode: single

@@ -38,7 +38,7 @@ function egj_room_status_settings_page() {
   $rate_limit_out_post = "";
 
   // Check if the user has submitted the form
-  if ( !empty($_POST) && wp_verify_nonce(egj_escape($_POST['egj_door_status_field']),'egj_door_status_action') ) {
+  if ( !empty($_POST) && isset($_POST['egj_door_status_field']) && wp_verify_nonce($_POST['egj_door_status_field'], 'egj_door_status_action') ) {
     $token1_post = egj_escape($_POST[ $_SESSION['egj_room_status_token_input_name_1'] ]);
     $token2_post = egj_escape($_POST[ $_SESSION['egj_room_status_token_input_name_2'] ]);
     $token3_post = egj_escape($_POST[ $_SESSION['egj_room_status_token_input_name_3'] ]);

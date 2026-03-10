@@ -4,10 +4,10 @@
  * Description: Room status Erfindergeist Jülich e.V.
  * Author: Lars 'vreezy' Eschweiler
  * Author URI: https://www.vreezy.de
- * Version: 3.2.0
+ * Version: 3.3.0
  * Text Domain: erfindergeist
  * Domain Path: /languages
- * Tested up to: 6.8
+ * Tested up to: 6.9.1
  *
  *
  * @package Erfindergeist-Room-Status
@@ -38,7 +38,7 @@ function egj_room_status_settings_page() {
   $rate_limit_out_post = "";
 
   // Check if the user has submitted the form
-  if ( !empty($_POST) || wp_verify_nonce(egj_escape($_POST['egj_door_status_field']),'egj_door_status_action') ) {
+  if ( !empty($_POST) && wp_verify_nonce(egj_escape($_POST['egj_door_status_field']),'egj_door_status_action') ) {
     $token1_post = egj_escape($_POST[ $_SESSION['egj_room_status_token_input_name_1'] ]);
     $token2_post = egj_escape($_POST[ $_SESSION['egj_room_status_token_input_name_2'] ]);
     $token3_post = egj_escape($_POST[ $_SESSION['egj_room_status_token_input_name_3'] ]);
@@ -82,7 +82,7 @@ function egj_room_status_settings_page() {
       ?>
         <div class="error"><p><strong><?php _e('Status JSON Error: ' . json_last_error_msg(), 'menu-test' ); ?></strong></p>
           <pre>
-              <?php echo $_POST[ $_SESSION['egj_room_status_option_name_1'] ]; ?>
+              <?php echo esc_html($_POST[ $_SESSION['egj_room_status_option_name_1'] ]); ?>
           </pre>
         </div>
       <?php

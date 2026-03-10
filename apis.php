@@ -26,8 +26,8 @@ function egj_door_status_post_api( WP_REST_Request $request){
   $token3_param = egj_escape($request->get_param( 'token3' ));
   $token3_db = get_option( $_SESSION['egj_room_status_token_option_name_3'] );
 
-  // Check if the tokens match
-  if($token1_param !== $token1_db || $token2_param !== $token2_db || $token3_param !== $token3_db) {
+  // Check if the tokens match (hash_equals is timing-safe)
+  if(!hash_equals($token1_db, $token1_param) || !hash_equals($token2_db, $token2_param) || !hash_equals($token3_db, $token3_param)) {
     return new WP_Error();
   }
 

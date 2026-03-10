@@ -15,33 +15,6 @@ function egj_escape($string) {
 }
 
 function egj_door_status_post_api( WP_REST_Request $request){
-  // rate limiting
-  $ip = $_SERVER['REMOTE_ADDR'];
-  $transient_key = 'erfindergeist_post_rate_limit_' . md5($ip);
-  $limit = 500; // get_option( $_SESSION['egj_room_status_option_rate_limit_in'] ) || 500; // there is one hourly request, but every state change did a change as well
-  $window = 3600;
-
-  $count = get_transient($transient_key);
-  if ($count === false) {
-    set_transient($transient_key, 1, $window);
-  } elseif ($count >= $limit) {
-    $transient_mail_key = 'erfindergeist_post_mail_rate_limit_' . md5($ip);
-    $bool = get_transient($transient_mail_key);
-    if (!$bool) {
-      set_transient($transient_mail_key, true, $window);
-      $admin = get_userdata(1);
-      $email = $admin ? $admin->user_email : null;
-      $site_url = get_site_url();
-      if($email) {
-        wp_mail($email, 'Wordpress: erfindergeist-room-status: API Hammering detected', "SERVER: $site_url \n IP: $ip hat das Rate Limit überschritten. \n limit: $limit \n count: $count");
-      }
-    }
-
-    return new WP_Error('rate_limited', 'Too many requests. Please try again later.', array('status' => 429));
-  } else {
-    set_transient($transient_key, $count + 1, $window);
-  }
-
   // AUTH
   // https://stackoverflow.com/questions/53126137/wordpress-rest-api-custom-endpoint-with-url-parameter
   $token1_param = egj_escape($request->get_param( 'token' ));
@@ -100,21 +73,6 @@ function egj_door_status_post_api( WP_REST_Request $request){
 }
 
 function egj_door_status_get_api( $data ) {
-  // rate limiting
-  $ip = $_SERVER['REMOTE_ADDR'];
-  $transient_key = 'erfindergeist_get_rate_limit_' . md5($ip);
-  $limit = 500; // get_option( $_SESSION['egj_room_status_option_rate_limit_out'] ) || 400;
-  $window = 3600;
-
-  $count = get_transient($transient_key);
-  if ($count === false) {
-    set_transient($transient_key, 1, $window);
-  } elseif ($count >= $limit) {
-    return new WP_Error('rate_limited', 'Too many requests. Please try again later.', array('status' => 429));
-  } else {
-    set_transient($transient_key, $count + 1, $window);
-  }
-
   $jsonData = get_option( $_SESSION['egj_room_status_option_name_1'] );
 
   $response = new WP_REST_Response($jsonData);
